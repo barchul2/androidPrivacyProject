@@ -27,31 +27,25 @@ public class implementWord {
 			// Convert sensitivityScore to an integer.
 			String identifier = input.next().strip();
 			String privacySensitive = input.next().strip();
-			// Convert the sensitivity score to an integer so we can operate on the
-			// integer value within the class
 			String sensitivityScore = input.next().strip();
 			int sensitivityScoreValue = Integer.parseInt(sensitivityScore.strip());
 
 			// Check to see if any objects have been created. If not, take the attributes
-			// and make an object
-			// Then add it to the Word Array List so that we have at least one object
+			// and make an object Then add it to the Word Array List so that we have at least one object
 			if (arrayOfWords.size() == 0) {
 
 				// Create the new word and add it to the ArrayList of words.
 				arrayOfWords.add(createNewWord(identifier, sensitivityScoreValue));
 
-				// Test to see if the object with the identifier has been created already
-				// We only want one object for each unique identifier.
+				// Test to see if the object with the identifier has been created already. We only want one object for each unique identifier.
 				int objectFound = objectIsFound(arrayOfWords, arrayOfWords.size(), identifier);
 
-				// Determine if the identifier is privacy sensitive or not based
-				// on the privacySensitive attribute.
+				// Determine if the identifier is privacy sensitive or not based on the privacySensitive attribute.
 				isPrivacySensitive(privacySensitive, arrayOfWords, objectFound);
 
 			} else {
 
-				// If our list of objects (Words) already has a object stored.
-				// Test to see if the object with the identifier has been created already
+				// If our list of objects (Words) already has a object stored. Test to see if the object with the identifier has been created already
 				int objectFound = objectIsFound(arrayOfWords, arrayOfWords.size(), identifier);
 
 				// If the object is found, then test to see if its privacy sensitive.
@@ -62,8 +56,7 @@ public class implementWord {
 					// Create a new object of type word and add it to our list of words.
 					Word test = createNewWord(identifier, sensitivityScoreValue);
 					arrayOfWords.add(test);
-					// Then test to see if its privacy sensitive. If it is, add one to the
-					// privacy sensitive attribute of the object
+					// Then test to see if its privacy sensitive. If it is, add one to the privacy sensitive attribute of the object
 					isPrivacySensitive(privacySensitive, test);
 
 				}
@@ -77,8 +70,7 @@ public class implementWord {
 		double threashHold = 1;
 
 		// ThreashHold for determining and acceptable yes/(yes+no) ratio
-		// If the privacy sensitive word is above the threasHold, then add
-		// it to the whiteList (ArrayList of Word Objects).
+		// If the privacy sensitive word is above the threasHold, then add it to the whiteList (ArrayList of Word Objects).
 		whiteList(arrayOfWords, threashHold, whiteList);
 
 		// print white list
