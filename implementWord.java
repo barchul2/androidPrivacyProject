@@ -9,7 +9,7 @@ public class implementWord {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		// Path of FinalAllData.txt file -Sorry, I was lazy. 
+		// Path of FinalAllData.txt file
 		String fileName = "/Users/brandonarchuleta/Desktop/FinalAllData copy.txt";
 
 		// Open and Scan the file
@@ -69,7 +69,7 @@ public class implementWord {
 		// This is the threashHold variable that we can change.
 		double threashHold = 1;
 
-		// ThreashHold for determining and acceptable yes/(yes+no) ratio
+		// ThreashHold for determining and acceptable NO/(yes+no) ratio
 		// If the privacy sensitive word is above the threasHold, then add it to the whiteList (ArrayList of Word Objects).
 		whiteList(arrayOfWords, threashHold, whiteList);
 
@@ -146,10 +146,10 @@ public class implementWord {
 
 		for (int x = 0; x < arrayOfWords.size(); x++) {
 
-			double computeRatio = (double) arrayOfWords.get(x).getNumberYes()
+			double computeRatio = (double) arrayOfWords.get(x).getNumberNo()
 					/ (arrayOfWords.get(x).getNumberYes() + arrayOfWords.get(x).getNumberNo());
 
-			// if the number of yes/ (yes/no) >= threshold
+			// if the number of No/ (yes/no) >= threshold
 			if (computeRatio >= threashHold) {
 				whiteList.add(arrayOfWords.get(x));
 			}
