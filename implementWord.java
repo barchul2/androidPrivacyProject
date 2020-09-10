@@ -9,7 +9,7 @@ public class implementWord {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		// Path of FinalAllData.txt file
+		// Path of FinalAllData.txt file -Sorry, I was lazy. 
 		String fileName = "/Users/brandonarchuleta/Desktop/FinalAllData copy.txt";
 
 		// Open and Scan the file
