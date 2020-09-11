@@ -10,7 +10,7 @@ public class implementWord {
 	public static void main(String[] args) throws FileNotFoundException {
 
 		// Path of FinalAllData.txt file
-		String fileName = "/Users/brandonarchuleta/Desktop/FinalAllData copy.txt";
+		String fileName = "/Users/brandonarchuleta/Desktop/FinalAllData.txt";
 
 		// Open and Scan the file
 		java.io.File file = new java.io.File(fileName);
@@ -26,16 +26,18 @@ public class implementWord {
 			// Read in the values for identifier, privacySenstivie, and sensitivityScore.
 			// Convert sensitivityScore to an integer.
 			String identifier = input.next().strip();
+			String identifierCategory = input.next().strip(); 
 			String privacySensitive = input.next().strip();
 			String sensitivityScore = input.next().strip();
 			int sensitivityScoreValue = Integer.parseInt(sensitivityScore.strip());
-
+			
+	
 			// Check to see if any objects have been created. If not, take the attributes
 			// and make an object Then add it to the Word Array List so that we have at least one object
 			if (arrayOfWords.size() == 0) {
 
 				// Create the new word and add it to the ArrayList of words.
-				arrayOfWords.add(createNewWord(identifier, sensitivityScoreValue));
+				arrayOfWords.add(createNewWord(identifier, identifierCategory, sensitivityScoreValue));
 
 				// Test to see if the object with the identifier has been created already. We only want one object for each unique identifier.
 				int objectFound = objectIsFound(arrayOfWords, arrayOfWords.size(), identifier);
@@ -54,10 +56,10 @@ public class implementWord {
 
 				} else {
 					// Create a new object of type word and add it to our list of words.
-					Word test = createNewWord(identifier, sensitivityScoreValue);
-					arrayOfWords.add(test);
+					Word newWord = createNewWord(identifier,identifierCategory, sensitivityScoreValue);
+					arrayOfWords.add(newWord);
 					// Then test to see if its privacy sensitive. If it is, add one to the privacy sensitive attribute of the object
-					isPrivacySensitive(privacySensitive, test);
+					isPrivacySensitive(privacySensitive, newWord);
 
 				}
 			}
@@ -101,9 +103,10 @@ public class implementWord {
 
 	}// end of main method
 
-	static Word createNewWord(String identifier, int sensitivityScore) {
+	static Word createNewWord(String identifier, String identifierCategory, int sensitivityScore) {
 
 		Word newWord = new Word();
+		newWord.identifierCategory = identifierCategory; 
 		newWord.identifier = identifier;
 		newWord.SensitivityScore.add(sensitivityScore);
 
@@ -146,8 +149,8 @@ public class implementWord {
 
 		for (int x = 0; x < arrayOfWords.size(); x++) {
 
-			double computeRatio = (double) arrayOfWords.get(x).getNumberNo()
-					/ (arrayOfWords.get(x).getNumberYes() + arrayOfWords.get(x).getNumberNo());
+			double computeRatio = ((double) arrayOfWords.get(x).getNumberNo()
+					/ (arrayOfWords.get(x).getNumberYes() + arrayOfWords.get(x).getNumberNo()));
 
 			// if the number of No/ (yes/no) >= threshold
 			if (computeRatio >= threashHold) {
@@ -158,10 +161,11 @@ public class implementWord {
 
 	static void printWhiteList(ArrayList<Word> whiteList) {
 
-		System.out.println("WhiteList");
-		System.out.println("---------");
+		
+		System.out.printf("%-25s%15s%25s%20s\n", "Identifier", "Category", "Number of Yes", "Number of No"); 
+		System.out.println("--------------------------------------------------------------------------------------");
 		for (int x = 0; x < whiteList.size(); x++) {
-			System.out.println(whiteList.get(x).identifier);
+			System.out.printf("%-25s%15s%20d%20d\n", whiteList.get(x).identifier, whiteList.get(x).identifierCategory, whiteList.get(x).numberYes, whiteList.get(x).numberNo);
 			// System.out.println("Number of Yes: " + whiteList.get(x).numberYes);
 			// System.out.println("Number of No: " + whiteList.get(x).numberNo);
 
@@ -177,7 +181,7 @@ public class implementWord {
 			FileWriter myWrite = new FileWriter(fileToWrite);
 
 			for (int x = 0; x < whiteList.size(); x++) {
-				myWrite.write((whiteList.get(x).getWordIdentifier() + '\n'));
+				myWrite.write(whiteList.get(x).identifier +"\t"+  whiteList.get(x).identifierCategory+ "\t" + whiteList.get(x).numberYes+ "\t" + whiteList.get(x).numberNo+"\n");
 
 			}
 
