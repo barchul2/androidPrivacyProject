@@ -1,4 +1,4 @@
-//Was this changed as well? 
+
 import java.io.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -14,6 +14,8 @@ public class LevenshtineAndSimilartyExtraction {
 		File[] directory = new File("/Users/brandonarchuleta/Desktop/Results").listFiles();
 		ArrayList<ResultsFile> resultsList = new ArrayList<>();
 		readFiles(directory, resultsList);
+		
+
 
 	}
 
@@ -49,26 +51,39 @@ public class LevenshtineAndSimilartyExtraction {
 	public static void traverseFile(File myFile, ResultsFile resultsObject) throws FileNotFoundException {
 
 		// String object that reads in an entire files text. Not a single line.
-		String line;
-		Matcher m;
+		String fileContents;
+		
+		Matcher simalarityTokenMatcher;
+		Matcher androidAppTokenMatcher;
 		Scanner input = new Scanner(myFile);
-		Pattern p = Pattern.compile("SIMILAR_PRIVACY_RELATED_TOKEN.[\": ]*.[a-z]*");
-
-		// TODO add regex for rest of data
+		
+		//Create a Regex pattern to identify the two SPT and AAT (android app token). 
+		Pattern simalarityToken = Pattern.compile("SIMILAR_PRIVACY_RELATED_TOKEN.[\": ]*.[a-z]*");
+		Pattern androidAppToken = Pattern.compile("ANDROID_APP_TOKEN.[\": ]*.[a-z]*");
+		
 
 		while (input.hasNext()) {
 
-			line = input.nextLine();
-			m = p.matcher(line);
-
-			while (m.find()) {
-
-				resultsObject.similarPrivacyRelatedTokens.add(m.group(0));
-
+			//Read in all the data in the file as a single string. 
+			fileContents = input.nextLine();
+			
+			//Using compiled regex, identify create matcher to identify matches 
+			simalarityTokenMatcher = simalarityToken.matcher(fileContents);
+			androidAppTokenMatcher = androidAppToken.matcher(fileContents); 
+			
+			while (simalarityTokenMatcher.find()) {
+				resultsObject.similarPrivacyRelatedTokens.add(simalarityTokenMatcher.group(0));
 			}
+			
+			while (androidAppTokenMatcher.find()) {
+				resultsObject.androidAppToken.add(androidAppTokenMatcher.group(0));
+			}
+			
+			
 
-		}
+		}//end of input while loop
 
+		//Close scanner
 		input.close();
 
 	}
@@ -76,16 +91,21 @@ public class LevenshtineAndSimilartyExtraction {
 }// end of class
 
 class ResultsFile {
-
+	
+	private double levenshtine_Threshold; 
+	private double semantic_Threshold; 
+	
 	private String parentDirectory;
 	private String fileName;
 	ArrayList<String> similarPrivacyRelatedTokens;
+	ArrayList<String> androidAppToken;
 
 	ResultsFile(String fileName, String parentDirectory) {
 
 		this.fileName = fileName;
 		this.parentDirectory = parentDirectory;
 		similarPrivacyRelatedTokens = new ArrayList<String>();
+		androidAppToken = new ArrayList<String>();
 	}
 
 	public String getParentDirectory() {
