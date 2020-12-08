@@ -1,4 +1,3 @@
-package optimalLevAndSim;
 
 import java.io.*;
 import java.io.FileNotFoundException;
